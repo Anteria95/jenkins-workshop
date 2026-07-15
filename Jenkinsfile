@@ -1,13 +1,23 @@
 pipeline {
-    agent any
+    agent any
 
-    stages {
-        stage('Terraform Check') {
-            steps {
-                echo 'Checking Tools...'
-                sh 'terraform version'
-                sh 'terraform init'
-            }
-        }
-    }
+    tools {
+        terraform 'terraform'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Terraform Check & Init') {
+            steps {
+                echo 'Checking Tools...'
+                sh 'terraform version'
+                sh 'terraform init'
+            }
+        }
+    }
 }
